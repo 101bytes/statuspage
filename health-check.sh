@@ -3,7 +3,7 @@
 # later upstream merges messy for anyone who forked us.
 commit=true
 origin=$(git remote get-url origin)
-gh_pages_branch="gh_pages"
+gh_pages_branch="gh-pages"
 
 KEYSARRAY=()
 URLSARRAY=()
@@ -59,7 +59,7 @@ then
   git config --global user.name "GitHub Actions"
   git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
   git update-ref -d HEAD
-  git add .
+  git add -A --force logs/
   git commit -am '[Automated] Update Health Check Logs'
   git push -f
 
