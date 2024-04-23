@@ -59,7 +59,7 @@ then
   git config --global user.name "GitHub Actions"
   git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
   git update-ref -d HEAD
-  git add -A --force site/logs/
+  git add .
   git commit -am '[Automated] Update Health Check Logs'
   git push -f
 
@@ -67,6 +67,7 @@ then
   git merge main
   ls -A1 | grep -vE "site|.git" | tr '\n' ' ' | xargs rm -r
   mv site/* ./ && rm -r site
+  git add .
   git commit -am '[Automated] Update Health Check Logs'
   git push -f
 fi
