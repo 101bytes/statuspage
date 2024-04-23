@@ -3,10 +3,7 @@
 # later upstream merges messy for anyone who forked us.
 commit=true
 origin=$(git remote get-url origin)
-if [[ $origin == *statsig-io/statuspage* ]]
-then
-  commit=false
-fi
+gh_pages_branch="gh_pages"
 
 KEYSARRAY=()
 URLSARRAY=()
@@ -24,7 +21,7 @@ done < "$urlsConfig"
 echo "***********************"
 echo "Starting health checks with ${#KEYSARRAY[@]} configs:"
 
-mkdir -p logs
+mkdir -p site/logs
 
 for (( index=0; index < ${#KEYSARRAY[@]}; index++))
 do
@@ -50,7 +47,7 @@ do
   then
     echo $dateTime, $result >> "logs/${key}_report.log"
     # By default we keep 2000 last log entries.  Feel free to modify this to meet your needs.
-    echo "$(tail -2000 logs/${key}_report.log)" > "logs/${key}_report.log"
+    echo "$(tail -2000 site/logs/${key}_report.log)" > "site/logs/${key}_report.log"
   else
     echo "    $dateTime, $result"
   fi
@@ -62,7 +59,14 @@ then
   git config --global user.name "GitHub Actions"
   git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
   git update-ref -d HEAD
-  git add -A --force logs/
-  git commit -am '[Automated] Update Health Check Logs - No.${GITHUB_RUN_NUMBER}'
+  git add .
+  git commit -am '[Automated] Update Health Check Logs'
+  git push -f
+
+  git checkout $gh_pages_branch
+  git merge main -f
+  ls -A1 | grep -vE "site" | tr '\n' ' ' | xargs rm -r
+  mv site/* ./ && rm -r site
+  git commit -am '[Automated] Update Health Check Logs'
   git push -f
 fi
