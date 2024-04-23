@@ -3,7 +3,7 @@
 # later upstream merges messy for anyone who forked us.
 commit=true
 origin=$(git remote get-url origin)
-gh_pages_branch="gh-pages"
+gh_pages_branch="gh_pages"
 
 KEYSARRAY=()
 URLSARRAY=()
