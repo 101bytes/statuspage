@@ -3,7 +3,7 @@
 # later upstream merges messy for anyone who forked us.
 commit=true
 origin=$(git remote get-url origin)
-gh_pages_branch="gh-pages"
+gh_pages_branch="gh_pages"
 
 KEYSARRAY=()
 URLSARRAY=()
@@ -64,8 +64,8 @@ then
   git push -f
 
   git checkout $gh_pages_branch
-  git merge main -f
-  ls -A1 | grep -vE "site" | tr '\n' ' ' | xargs rm -r
+  git merge main
+  ls -A1 | grep -vE "site|.git" | tr '\n' ' ' | xargs rm -r
   mv site/* ./ && rm -r site
   git commit -am '[Automated] Update Health Check Logs'
   git push -f
