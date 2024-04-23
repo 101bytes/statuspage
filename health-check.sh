@@ -45,7 +45,7 @@ do
   dateTime=$(date +'%Y-%m-%d %H:%M')
   if [[ $commit == true ]]
   then
-    echo $dateTime, $result >> "logs/${key}_report.log"
+    echo $dateTime, $result >> "site/logs/${key}_report.log"
     # By default we keep 2000 last log entries.  Feel free to modify this to meet your needs.
     echo "$(tail -2000 site/logs/${key}_report.log)" > "site/logs/${key}_report.log"
   else
@@ -59,7 +59,7 @@ then
   git config --global user.name "GitHub Actions"
   git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
   git update-ref -d HEAD
-  git add -A --force logs/
+  git add -A --force site/logs/
   git commit -am '[Automated] Update Health Check Logs'
   git push -f
 
