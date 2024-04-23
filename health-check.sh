@@ -58,7 +58,7 @@ then
   # Let's make Vijaye the most productive person on GitHub.
   git config --global user.name "GitHub Actions"
   git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-  git update-ref -d HEAD
+  # git update-ref -d HEAD
   git add .
   git commit -am '[Automated] Update Health Check Logs'
   git push -f
