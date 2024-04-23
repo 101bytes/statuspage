@@ -21,7 +21,7 @@ done < "$urlsConfig"
 echo "***********************"
 echo "Starting health checks with ${#KEYSARRAY[@]} configs:"
 
-mkdir -p site/logs
+mkdir -p logs
 
 for (( index=0; index < ${#KEYSARRAY[@]}; index++))
 do
@@ -45,9 +45,9 @@ do
   dateTime=$(date +'%Y-%m-%d %H:%M')
   if [[ $commit == true ]]
   then
-    echo $dateTime, $result >> "site/logs/${key}_report.log"
+    echo $dateTime, $result >> "logs/${key}_report.log"
     # By default we keep 2000 last log entries.  Feel free to modify this to meet your needs.
-    echo "$(tail -2000 site/logs/${key}_report.log)" > "site/logs/${key}_report.log"
+    echo "$(tail -2000 logs/${key}_report.log)" > "logs/${key}_report.log"
   else
     echo "    $dateTime, $result"
   fi
@@ -62,13 +62,4 @@ then
   git add .
   git commit -am '[Automated] Update Health Check Logs'
   git push -f
-
-  git checkout "$PAGES_BRANCH" && \
-  git merge main && \
-  ls -A1 | grep -vE "site|.git" | tr '\n' ' ' | xargs rm -r && \
-  mv site/* ./ && rm -r site && \
-  git update-ref -d HEAD && \
-  git add . && \
-  git commit -am '[Automated] Update Health Check Logs' && \
-  git push -u origin "$PAGES_BRANCH"
 fi
